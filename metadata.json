@@ -1,0 +1,5 @@
+{
+  "name": "ExcelChat AI",
+  "description": "Upload your Excel files and chat with your data using Gemini AI. Parse spreadsheets instantly and get intelligent insights.",
+  "requestFramePermissions": []
+}
