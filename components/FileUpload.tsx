@@ -61,44 +61,45 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect, isLoading 
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         className={`
-          relative border-2 border-dashed rounded-2xl p-10 text-center transition-all duration-300
-          flex flex-col items-center justify-center min-h-[300px]
+          relative border border-dashed rounded-3xl p-12 text-center transition-all duration-300
+          flex flex-col items-center justify-center min-h-[320px] shadow-sm
           ${isDragging 
-            ? 'border-blue-500 bg-blue-50 scale-[1.02]' 
-            : 'border-slate-300 bg-white hover:border-slate-400'
+            ? 'border-indigo-500 bg-indigo-50/50 scale-[1.02]' 
+            : 'border-slate-300 bg-white hover:border-indigo-400 hover:shadow-md'
           }
         `}
       >
-        <div className="bg-green-100 p-4 rounded-full mb-6">
-          <FileSpreadsheet className={`w-12 h-12 text-green-600 ${isLoading ? 'animate-pulse' : ''}`} />
+        <div className={`p-5 rounded-2xl mb-6 transition-colors duration-300 ${isDragging ? 'bg-indigo-100' : 'bg-slate-50'}`}>
+          <FileSpreadsheet className={`w-12 h-12 ${isLoading ? 'animate-pulse text-indigo-400' : 'text-indigo-600'}`} />
         </div>
         
-        <h3 className="text-xl font-semibold text-slate-800 mb-2">
-          {isLoading ? "Processing File..." : "Upload your Excel File"}
+        <h3 className="text-xl font-bold text-slate-900 mb-2 tracking-tight">
+          {isLoading ? "Processing Data..." : "Upload your Excel File"}
         </h3>
         
-        <p className="text-slate-500 mb-6 max-w-xs mx-auto">
-          Drag and drop your spreadsheet here, or click to browse.
+        <p className="text-slate-500 mb-8 max-w-xs mx-auto leading-relaxed">
+          Drag and drop your spreadsheet here to begin analysis.
           <br />
-          <span className="text-xs text-slate-400">Supports .xlsx and .xls</span>
+          <span className="text-xs text-slate-400 font-medium mt-1 block">Supports .xlsx and .xls</span>
         </p>
 
         {!isLoading && (
-          <label className="relative">
+          <label className="relative group">
             <input
               type="file"
               className="hidden"
               onChange={handleFileInput}
               accept=".xlsx,.xls"
             />
-            <span className="px-6 py-3 bg-slate-900 text-white rounded-lg font-medium cursor-pointer hover:bg-slate-800 transition-colors shadow-lg hover:shadow-xl">
+            <span className="px-8 py-3.5 bg-slate-900 text-white rounded-xl font-semibold cursor-pointer group-hover:bg-indigo-600 transition-all duration-300 shadow-lg group-hover:shadow-indigo-500/30 flex items-center gap-2">
+              <Upload size={18} />
               Browse Files
             </span>
           </label>
         )}
 
         {error && (
-          <div className="absolute bottom-4 left-0 right-0 mx-auto w-max max-w-[90%] flex items-center gap-2 text-red-600 bg-red-50 px-4 py-2 rounded-lg text-sm">
+          <div className="absolute bottom-4 left-0 right-0 mx-auto w-max max-w-[90%] flex items-center gap-2 text-red-600 bg-red-50 px-4 py-2 rounded-lg text-sm font-medium animate-in slide-in-from-bottom-2">
             <AlertCircle size={16} />
             {error}
           </div>

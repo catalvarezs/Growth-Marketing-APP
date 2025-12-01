@@ -17,43 +17,44 @@ export const DataTable: React.FC<DataTableProps> = ({ data }) => {
   const displayRows = currentSheet.rows.slice(0, 100);
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full max-h-[600px]">
+    <div className="flex flex-col h-full w-full bg-white">
       {/* Sheet Tabs */}
-      <div className="flex overflow-x-auto border-b border-slate-200 bg-slate-50 scrollbar-thin">
+      <div className="flex overflow-x-auto border-b border-slate-100 bg-white scrollbar-thin shrink-0 px-2 pt-2">
         {data.sheets.map((sheet, idx) => (
           <button
             key={idx}
             onClick={() => setActiveSheetIndex(idx)}
             className={`
-              flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 whitespace-nowrap transition-colors
+              flex items-center gap-2 px-5 py-3 text-sm font-semibold whitespace-nowrap transition-all rounded-t-lg
               ${activeSheetIndex === idx 
-                ? 'border-blue-600 text-blue-700 bg-white' 
-                : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
+                ? 'text-indigo-600 bg-indigo-50/50 border-b-2 border-indigo-600' 
+                : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
               }
             `}
           >
-            <Layers size={14} className={activeSheetIndex === idx ? 'text-blue-600' : 'text-slate-400'} />
+            <Layers size={14} className={activeSheetIndex === idx ? 'text-indigo-600' : 'text-slate-400'} />
             {sheet.sheetName}
           </button>
         ))}
       </div>
 
-      <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
-        <h3 className="font-semibold text-slate-700 flex items-center gap-2">
+      <div className="px-4 py-3 border-b border-slate-100 bg-white flex justify-between items-center shrink-0">
+        <h3 className="font-bold text-slate-800 flex items-center gap-2 text-sm">
           {currentSheet.sheetName}
-          <span className="text-xs font-normal text-slate-500 px-2 py-0.5 bg-slate-200 rounded-full">
+          <span className="text-xs font-medium text-slate-500 px-2.5 py-0.5 bg-slate-100 rounded-full">
             {currentSheet.rows.length} rows
           </span>
         </h3>
-        <span className="text-xs text-slate-400 italic">Showing first 100 rows</span>
+        <span className="text-xs text-slate-400 font-medium hidden sm:inline">Displaying top 100 rows</span>
       </div>
       
-      <div className="overflow-auto flex-1 scrollbar-thin">
+      {/* Table Container - flex-1 allows it to take remaining height */}
+      <div className="flex-1 overflow-auto scrollbar-thin w-full bg-white relative">
         <table className="w-full text-left text-sm whitespace-nowrap">
-          <thead className="bg-slate-50 sticky top-0 z-10 shadow-sm">
+          <thead className="bg-slate-50/80 backdrop-blur-sm sticky top-0 z-10">
             <tr>
               {currentSheet.columns.map((col, idx) => (
-                <th key={idx} className="px-6 py-3 font-medium text-slate-600 border-b border-slate-200">
+                <th key={idx} className="px-6 py-4 font-semibold text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200 bg-slate-50/50">
                   {col}
                 </th>
               ))}
@@ -61,9 +62,9 @@ export const DataTable: React.FC<DataTableProps> = ({ data }) => {
           </thead>
           <tbody className="divide-y divide-slate-100">
             {displayRows.map((row, rIdx) => (
-              <tr key={rIdx} className="hover:bg-slate-50 transition-colors">
+              <tr key={rIdx} className="hover:bg-indigo-50/30 transition-colors group">
                 {currentSheet.columns.map((col, cIdx) => (
-                  <td key={cIdx} className="px-6 py-3 text-slate-600">
+                  <td key={cIdx} className="px-6 py-3.5 text-slate-600 group-hover:text-slate-900 transition-colors border-r border-slate-50 last:border-r-0">
                     {row[col] !== undefined && row[col] !== null ? String(row[col]) : '-'}
                   </td>
                 ))}
