@@ -13,7 +13,6 @@ export const parseExcelData = (buffer: ArrayBuffer, fileName: string): ExcelData
     
     // Parse to JSON with raw: false to get formatted strings
     const jsonData = XLSX.utils.sheet_to_json<ExcelRow>(worksheet, { 
-      header: 0, 
       defval: "",
       raw: false 
     });
@@ -65,9 +64,27 @@ export const parseExcelFile = async (file: File): Promise<ExcelData> => {
   });
 };
 
+// Helper to extract ID from Google Sheet URL
+const extractSheetId = (input: string): string | null => {
+  // If it's already an ID (long string, no slashes), return it
+  if (!input.includes('/') && input.length > 20) return input;
+
+  // Regex for standard Google Sheet URLs
+  const matches = input.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (matches && matches[1]) return matches[1];
+
+  return null;
+};
+
 // Fetch and parse remote Google Sheet
-export const fetchGoogleSheet = async (sheetId: string): Promise<ExcelData> => {
+export const fetchGoogleSheet = async (input: string): Promise<ExcelData> => {
   try {
+    const sheetId = extractSheetId(input);
+    
+    if (!sheetId) {
+      throw new Error("Invalid Google Sheet URL or ID");
+    }
+
     // Use Google Sheets Export URL
     const googleSheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=xlsx`;
     // Use CORS proxy to bypass browser restrictions
@@ -80,9 +97,9 @@ export const fetchGoogleSheet = async (sheetId: string): Promise<ExcelData> => {
     }
 
     const arrayBuffer = await response.arrayBuffer();
-    return parseExcelData(arrayBuffer, "Carvuk Data.xlsx");
+    return parseExcelData(arrayBuffer, "Google Sheet Data.xlsx");
   } catch (error) {
     console.error("Google Sheet Fetch Error:", error);
-    throw new Error("Could not connect to Google Sheet. Please check the ID or try again.");
+    throw new Error("Could not connect to Google Sheet. Please check permissions (must be 'Anyone with the link') or the URL.");
   }
 };

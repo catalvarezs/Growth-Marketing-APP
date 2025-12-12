@@ -55,26 +55,25 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ messages, onSendMe
   };
 
   return (
-    <div className="flex flex-col h-full bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-      <div className="p-4 border-b border-slate-100 bg-white flex items-center justify-between">
-        <h3 className="font-bold text-slate-800 flex items-center gap-2 tracking-tight">
-          <Sparkles className="w-4 h-4 text-indigo-600" />
-          AI Analyst
+    <div className="flex flex-col h-full bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+      <div className="px-5 py-4 border-b border-gray-100 bg-white flex items-center justify-between">
+        <h3 className="font-semibold text-gray-900 flex items-center gap-2 tracking-tight text-sm">
+          <Sparkles className="w-4 h-4 text-black" />
+          Growth Assistant
         </h3>
-        <div className="flex items-center gap-2 bg-slate-50 px-3 py-1 rounded-full border border-slate-100">
-            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
-            <span className="text-xs font-medium text-slate-500">Gemini 2.5 Flash</span>
+        <div className="flex items-center gap-2 bg-gray-50 px-2 py-1 rounded text-[10px] border border-gray-100 uppercase tracking-wider font-semibold text-gray-500">
+           AI Powered
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-thin bg-slate-50/30">
+      <div className="flex-1 overflow-y-auto p-5 space-y-6 scrollbar-thin bg-white">
         {messages.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-full text-slate-400 p-8 text-center">
-            <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mb-4">
-                <BarChart2 className="w-8 h-8 text-slate-300" />
+          <div className="flex flex-col items-center justify-center h-full text-gray-400 p-8 text-center">
+            <div className="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center mb-4 border border-gray-100">
+                <BarChart2 className="w-6 h-6 text-gray-400" />
             </div>
-            <p className="text-sm font-medium text-slate-600">Ask questions about your data to get started.</p>
-            <p className="text-xs mt-2 text-slate-400">"Calculate ROAS by Campaign"<br/>"What is the CAC?"</p>
+            <p className="text-sm font-medium text-gray-900">Start your analysis</p>
+            <p className="text-xs mt-1 text-gray-500">"What is the CAC?" or "Show me revenue trends"</p>
           </div>
         )}
         
@@ -89,23 +88,23 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ messages, onSendMe
               }`}
             >
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm ${
-                  msg.role === 'user' ? 'bg-slate-900 text-white' : 'bg-indigo-600 text-white'
+                className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 border ${
+                  msg.role === 'user' ? 'bg-black border-black text-white' : 'bg-white border-gray-200 text-gray-600'
                 }`}
               >
-                {msg.role === 'user' ? <User size={14} /> : <Bot size={14} />}
+                {msg.role === 'user' ? <User size={12} /> : <Bot size={14} />}
               </div>
               
               <div
-                className={`max-w-[90%] md:max-w-[85%] rounded-2xl px-5 py-4 text-sm leading-relaxed shadow-sm ${
+                className={`max-w-[90%] md:max-w-[85%] rounded-lg px-4 py-3 text-sm leading-relaxed ${
                   msg.role === 'user'
-                    ? 'bg-slate-900 text-white rounded-tr-none'
-                    : 'bg-white text-slate-700 border border-slate-100 rounded-tl-none'
+                    ? 'bg-black text-white'
+                    : 'bg-white text-gray-800 border border-gray-100'
                 }`}
               >
                 {msg.role === 'model' ? (
                   <>
-                    <div className="prose prose-sm max-w-none prose-p:my-1 prose-headings:my-2 prose-ul:my-1 prose-strong:text-slate-900 prose-a:text-indigo-600">
+                    <div className="prose prose-sm max-w-none prose-p:my-1 prose-headings:my-2 prose-ul:my-1 prose-strong:text-gray-900 prose-a:text-black prose-a:underline">
                        <ReactMarkdown>{text}</ReactMarkdown>
                     </div>
                     {chart && <ChartRenderer config={chart} />}
@@ -120,34 +119,34 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({ messages, onSendMe
 
         {isTyping && (
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+            <div className="w-7 h-7 rounded-full bg-white border border-gray-200 text-gray-600 flex items-center justify-center flex-shrink-0">
               <Bot size={14} />
             </div>
-            <div className="bg-white border border-slate-100 rounded-2xl rounded-tl-none px-4 py-4 shadow-sm">
-               <Loader2 className="w-5 h-5 animate-spin text-indigo-500" />
+            <div className="bg-white px-4 py-3 rounded-lg border border-gray-100">
+               <Loader2 className="w-4 h-4 animate-spin text-gray-500" />
             </div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      <form onSubmit={handleSubmit} className="p-4 bg-white border-t border-slate-100">
+      <form onSubmit={handleSubmit} className="p-4 bg-white border-t border-gray-100">
         <div className="relative flex items-center gap-2">
           <input
             ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about CAC, ROAS, trends..."
-            className="w-full pl-4 pr-12 py-3.5 bg-slate-50 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:bg-white transition-all text-sm font-medium placeholder:text-slate-400 text-slate-700"
+            placeholder="Ask a question..."
+            className="w-full pl-4 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-black focus:border-black transition-all text-sm placeholder:text-gray-400 text-gray-900"
             disabled={isTyping}
           />
           <button
             type="submit"
             disabled={!input.trim() || isTyping}
-            className="absolute right-2 p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg active:scale-95"
+            className="absolute right-2 p-1.5 bg-black text-white rounded hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
-            <Send size={16} />
+            <Send size={14} />
           </button>
         </div>
       </form>

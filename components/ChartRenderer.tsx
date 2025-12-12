@@ -35,8 +35,8 @@ interface ChartRendererProps {
   config: ChartConfig;
 }
 
-// Carvuk-inspired palette: Indigo (Primary), Emerald, Sky Blue, Violet, Amber
-const COLORS = ['#4f46e5', '#10b981', '#0ea5e9', '#8b5cf6', '#f59e0b', '#ec4899', '#6366f1'];
+// Cal.com inspired palette: Black, Grays, and minimal accents
+const COLORS = ['#18181b', '#52525b', '#a1a1aa', '#d4d4d8', '#27272a', '#71717a'];
 
 export const ChartRenderer: React.FC<ChartRendererProps> = ({ config }) => {
   const { type, title, data, xAxisLabel, yAxisLabel } = config;
@@ -47,20 +47,22 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({ config }) => {
       case 'bar':
         return (
           <BarChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e4e4e7" />
             <XAxis 
               dataKey="name" 
-              stroke="#64748b" 
+              stroke="#52525b" 
               fontSize={12} 
               tickMargin={10}
+              tickLine={false}
+              axisLine={false}
             />
-            <YAxis stroke="#64748b" fontSize={12} />
+            <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
             <Tooltip 
-              contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-              cursor={{ fill: '#f8fafc' }}
+              contentStyle={{ borderRadius: '8px', border: '1px solid #e4e4e7', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+              cursor={{ fill: '#f4f4f5' }}
             />
             <Legend wrapperStyle={{ paddingTop: '20px' }} />
-            <Bar dataKey="value" name={yAxisLabel || "Value"} fill="#4f46e5" radius={[6, 6, 0, 0]} animationDuration={1000}>
+            <Bar dataKey="value" name={yAxisLabel || "Value"} fill="#18181b" radius={[4, 4, 0, 0]} animationDuration={1000}>
               {data.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
@@ -71,26 +73,28 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({ config }) => {
       case 'line':
         return (
           <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e4e4e7" />
             <XAxis 
               dataKey="name" 
-              stroke="#64748b" 
+              stroke="#52525b" 
               fontSize={12} 
               tickMargin={10}
+              tickLine={false}
+              axisLine={false}
             />
-            <YAxis stroke="#64748b" fontSize={12} />
+            <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
             <Tooltip 
-               contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+               contentStyle={{ borderRadius: '8px', border: '1px solid #e4e4e7', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
             />
             <Legend wrapperStyle={{ paddingTop: '20px' }} />
             <Line 
               type="monotone" 
               dataKey="value" 
               name={yAxisLabel || "Value"}
-              stroke="#4f46e5" 
-              strokeWidth={3}
-              dot={{ r: 4, fill: '#4f46e5', strokeWidth: 2, stroke: '#fff' }}
-              activeDot={{ r: 6, fill: '#4f46e5', stroke: '#fff' }}
+              stroke="#18181b" 
+              strokeWidth={2}
+              dot={{ r: 4, fill: '#18181b', strokeWidth: 2, stroke: '#fff' }}
+              activeDot={{ r: 6, fill: '#18181b', stroke: '#fff' }}
               animationDuration={1000}
             />
           </LineChart>
@@ -101,27 +105,29 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({ config }) => {
           <AreaChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 20 }}>
             <defs>
               <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.2}/>
-                <stop offset="95%" stopColor="#4f46e5" stopOpacity={0}/>
+                <stop offset="5%" stopColor="#18181b" stopOpacity={0.1}/>
+                <stop offset="95%" stopColor="#18181b" stopOpacity={0}/>
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e4e4e7" />
             <XAxis 
               dataKey="name" 
-              stroke="#64748b" 
+              stroke="#52525b" 
               fontSize={12} 
               tickMargin={10}
+              tickLine={false}
+              axisLine={false}
             />
-            <YAxis stroke="#64748b" fontSize={12} />
+            <YAxis stroke="#52525b" fontSize={12} tickLine={false} axisLine={false} />
             <Tooltip 
-               contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+               contentStyle={{ borderRadius: '8px', border: '1px solid #e4e4e7', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
             />
             <Legend wrapperStyle={{ paddingTop: '20px' }} />
             <Area 
               type="monotone" 
               dataKey="value" 
               name={yAxisLabel || "Value"}
-              stroke="#4f46e5" 
+              stroke="#18181b" 
               fillOpacity={1} 
               fill="url(#colorValue)" 
               animationDuration={1000}
@@ -139,7 +145,7 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({ config }) => {
               innerRadius={60}
               outerRadius={80}
               fill="#8884d8"
-              paddingAngle={5}
+              paddingAngle={2}
               dataKey="value"
               nameKey="name"
               label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
@@ -150,7 +156,7 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({ config }) => {
               ))}
             </Pie>
             <Tooltip 
-               contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+               contentStyle={{ borderRadius: '8px', border: '1px solid #e4e4e7', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
             />
             <Legend />
           </PieChart>
@@ -162,8 +168,8 @@ export const ChartRenderer: React.FC<ChartRendererProps> = ({ config }) => {
   };
 
   return (
-    <div className="w-full bg-white rounded-2xl border border-slate-100 p-6 mt-4 shadow-sm hover:shadow-md transition-shadow duration-300">
-      <h4 className="text-sm font-bold text-slate-800 mb-6 text-center tracking-tight">{title}</h4>
+    <div className="w-full bg-white rounded-lg border border-gray-200 p-6 mt-4">
+      <h4 className="text-sm font-semibold text-gray-900 mb-6 text-center tracking-tight">{title}</h4>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           {renderChart() || <div>Error loading chart</div>}

@@ -44,7 +44,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect, isLoading 
       'application/vnd.ms-excel', // .xls
     ];
 
-    // Some browsers might not detect MIME type correctly for all excel files, check extension as fallback
     const isExcel = validTypes.includes(file.type) || /\.(xlsx|xls)$/i.test(file.name);
 
     if (isExcel) {
@@ -55,52 +54,50 @@ export const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect, isLoading 
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto">
+    <div className="w-full">
       <div
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         className={`
-          relative border border-dashed rounded-3xl p-12 text-center transition-all duration-300
-          flex flex-col items-center justify-center min-h-[320px] shadow-sm
+          relative border border-dashed rounded-lg p-10 text-center transition-all duration-200
+          flex flex-col items-center justify-center shadow-sm bg-white
           ${isDragging 
-            ? 'border-indigo-500 bg-indigo-50/50 scale-[1.02]' 
-            : 'border-slate-300 bg-white hover:border-indigo-400 hover:shadow-md'
+            ? 'border-black bg-gray-50 scale-[1.01]' 
+            : 'border-gray-300 hover:border-gray-400'
           }
         `}
       >
-        <div className={`p-5 rounded-2xl mb-6 transition-colors duration-300 ${isDragging ? 'bg-indigo-100' : 'bg-slate-50'}`}>
-          <FileSpreadsheet className={`w-12 h-12 ${isLoading ? 'animate-pulse text-indigo-400' : 'text-indigo-600'}`} />
+        <div className={`p-4 rounded-full mb-4 transition-colors duration-300 ${isDragging ? 'bg-gray-200' : 'bg-gray-100'}`}>
+          <FileSpreadsheet className={`w-8 h-8 ${isLoading ? 'animate-pulse text-gray-500' : 'text-gray-900'}`} />
         </div>
         
-        <h3 className="text-xl font-bold text-slate-900 mb-2 tracking-tight">
-          {isLoading ? "Processing Data..." : "Upload your Excel File"}
+        <h3 className="text-lg font-bold text-gray-900 mb-1 tracking-tight">
+          {isLoading ? "Processing Data..." : "Upload Spreadsheet"}
         </h3>
         
-        <p className="text-slate-500 mb-8 max-w-xs mx-auto leading-relaxed">
-          Drag and drop your spreadsheet here to begin analysis.
-          <br />
-          <span className="text-xs text-slate-400 font-medium mt-1 block">Supports .xlsx and .xls</span>
+        <p className="text-gray-500 mb-6 text-sm max-w-xs mx-auto">
+          Drag and drop your file here.
         </p>
 
         {!isLoading && (
-          <label className="relative group">
+          <label className="relative cursor-pointer">
             <input
               type="file"
               className="hidden"
               onChange={handleFileInput}
               accept=".xlsx,.xls"
             />
-            <span className="px-8 py-3.5 bg-slate-900 text-white rounded-xl font-semibold cursor-pointer group-hover:bg-indigo-600 transition-all duration-300 shadow-lg group-hover:shadow-indigo-500/30 flex items-center gap-2">
-              <Upload size={18} />
+            <span className="px-6 py-2 bg-white text-black border border-gray-300 rounded-md font-medium hover:bg-gray-50 transition-all text-sm flex items-center gap-2">
+              <Upload size={14} />
               Browse Files
             </span>
           </label>
         )}
 
         {error && (
-          <div className="absolute bottom-4 left-0 right-0 mx-auto w-max max-w-[90%] flex items-center gap-2 text-red-600 bg-red-50 px-4 py-2 rounded-lg text-sm font-medium animate-in slide-in-from-bottom-2">
-            <AlertCircle size={16} />
+          <div className="mt-4 flex items-center gap-2 text-red-600 bg-red-50 px-3 py-1.5 rounded text-xs font-medium animate-in slide-in-from-bottom-1">
+            <AlertCircle size={14} />
             {error}
           </div>
         )}
